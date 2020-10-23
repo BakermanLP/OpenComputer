@@ -187,7 +187,7 @@ if file then
             travelCost = nav.getCost(nextX,y,nextZ)
 
             -- Keep 5% (0.95) as buffer for safety
-            if computer.energy() * 0.95 < refuelCost + 2 * travelCost then
+            if computer.energy() * 0.90 < refuelCost + 2 * travelCost then
                 ourX, ourY, ourZ = nav.getPosition()
                 log.info("Need to refuel : energy = "..tostring(computer.energy()).." travelCost = "..tostring(travelCost).." refuelCost = "..tostring(refuelCost).." ")
                 log.info("Curent position : x = "..tostring(ourX)..", y = "..tostring(ourY)..", z = "..tostring(ourZ).." ")
