@@ -85,7 +85,7 @@ function placeBlock()
         for slot=2, robot.inventorySize() do
             if robot.count(slot) > 1 then
                 findSlot = slot
-                log.debug("Next Slot: "..tostring(findSlot))
+                log.debug("Next Slot: "..tostring(findSlot).." energy = "..tostring(computer.energy()))
                 break
             end
         end
@@ -182,15 +182,21 @@ if file then
         -- Nur laufen und Setzen, wenn wirklich Block platzieren
         if gotcha > 0 then
             log.trace("Next block to set X = "..tostring(nextX)..", NextZ = "..tostring(nextZ))
+
+            refuelCost = nav.getCost(0,0,0)
+            travelCost = nav.getCost(nextX,y,nextZ)
+
+            -- Keep 5% (0.95) as buffer for safety
+            if computer.energy() * 0.95 < refuelCost + 2 * travelCost then
+                ourX, ourY, ourZ = nav.getPosition()
+                log.info("Need to refuel : energy = "..tostring(computer.energy()).." travelCost = "..tostring(travelCost).." refuelCost = "..tostring(refuelCost).." ")
+                log.info("Curent position : x = "..tostring(ourX)..", y = "..tostring(ourY)..", z = "..tostring(ourZ).." ")
+                log.info("Target position : x = "..tostring(nextX)..", y = "..tostring(y)..", z = "..tostring(nextZ))
+                refuel(y)
+            end
             nav.moveXZ(nextX,nextZ)
             placeBlock()
-        end
-        tbllines[nextZ][nextX] = "0"
-
-        refuelCost = nav.getCost(0,0,0)
-        maxTravelCost = maxx * 3 * 15 + 10 
-        if computer.energy() < refuelCost + maxTravelCost then
-            refuel(y)
+            tbllines[nextZ][nextX] = "0"
         end
 
         os.sleep(0.1)
