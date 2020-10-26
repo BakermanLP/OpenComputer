@@ -71,6 +71,7 @@ function refuel(lastY)
     log.info("Need to refuel, going to 0,0,0")
     nav.moveXZ(0,0)
     nav.moveY(0)
+    log.debug("energy on target 0,0,0 = "..tostring(computer.energy()))
     while computer.maxEnergy() - computer.energy() > 100 do
        os.sleep(1)
     end

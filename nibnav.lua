@@ -534,8 +534,8 @@ end
 
 -- Example getCost function for use with pathfind(). This example assuming that getBlockNeighbors() was passed.
 function nibnav.getCost(x, y, z)
-    local robMoveCost = 17;
-    local robTurnCost = 2.5;
+    local robMoveCost = 20;
+    local robTurnCost = 3;
 
     local stepCost = 0
     local turnCost = 0
